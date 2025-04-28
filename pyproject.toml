@@ -7,7 +7,8 @@ name = "bibly"
 version = "0.0.1"
 authors = [
   { name="Nils A. Herrmann de Alba", email="nils_herrmann@outlook.de" },
-]
+],
+description = "Simple package for bibliometric retrieval."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["pybliometrics", "sprynger"]

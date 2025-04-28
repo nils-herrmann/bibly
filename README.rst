@@ -1,5 +1,7 @@
 BibLy
 =====
+`BibLy` is a Python library designed to streamline academic literature searches by integrating multiple APIs (e.g., Scopus, Springer, ScienceDirect). It provides a unified interface for querying, filtering, and retrieving research articles, enabling efficient data collection and analysis for literature reviews.
+
 
 ⬇️ Install
 -----------
