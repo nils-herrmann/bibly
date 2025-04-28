@@ -1,6 +1,7 @@
 from typing import Optional
 
 from bibly.scopus_handler import ScopusHandler
+from bibly.sciencedirect_handler import SciencedirectHandler
 from bibly.springer_handler import SpringerHandler
 from bibly.utils.data_types import SearchResult
 
@@ -21,6 +22,8 @@ class BibLy:
         :return: List of search results
         """
         results = []
+        if self.sciencedirect_handler:
+            results.extend(self.sciencedirect_handler.search(query, year_from, year_to))
         if self.scopus_handler:
             results.extend(self.scopus_handler.search(query, year_from, year_to))
         if self.springer_handler:
@@ -41,4 +44,5 @@ class BibLy:
         """
         # Initialize API handlers
         self.scopus_handler = ScopusHandler(scopus_key, scopus_token) if scopus_key else None
+        self.sciencedirect_handler = SciencedirectHandler(scopus_key, scopus_token) if scopus_key else None
         self.springer_handler = SpringerHandler(springer_key) if springer_key else None
