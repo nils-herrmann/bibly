@@ -2,7 +2,7 @@ from typing import Optional
 from sprynger import init, Meta
 
 from bibly.search_handler import SearchHandler
-from bibly.utils.data_types import SearchResult
+from bibly.utils import log_count, log_search, SearchResult
 
 class SpringerHandler(SearchHandler):
     def initialize(self):
@@ -11,6 +11,19 @@ class SpringerHandler(SearchHandler):
         """
         init(api_key = self.api_key)
 
+    @log_count
+    def count(self,
+              query: str,
+              year_from: Optional[str | int] = None,
+              year_to: Optional[str | int] = None) -> int:
+          """ Count the number of results for a given query using the Springer API."""
+          query += f" AND datefrom:{year_from}-01-01" if year_from else ""
+          query += f" AND dateto:{year_to}-12-31" if year_to else ""
+    
+          springer_search = Meta(query, nr_results=1, refresh=True)
+          return springer_search.results.total
+
+    @log_search
     def search(self,
                query: str,
                year_from: Optional[str | int] = None,
@@ -19,7 +32,7 @@ class SpringerHandler(SearchHandler):
         query += f" AND datefrom:{year_from}-01-01" if year_from else ""
         query += f" AND dateto:{year_to}-12-31" if year_to else ""
 
-        springer_search = Meta(query, nr_results=100)
+        springer_search = Meta(query, nr_results=500)
 
         results = []
         for entry in springer_search:

@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bibly"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Nils A. Herrmann de Alba", email="nils_herrmann@outlook.de" },
 ]
-description = "Simple package for bibliometric retrieval."
+description = "Simple package for literature retrieval."
 readme = "README.rst"
 requires-python = ">=3.11"
-dependencies = ["pybliometrics", "sprynger"]
+dependencies = ["pybliometrics", "sprynger", "pyalex"]
 license = { text = "MIT" }
 classifiers = [
     "Programming Language :: Python :: 3",

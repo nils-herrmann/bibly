@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from bibly.utils.data_types import SearchResult
+from bibly.utils import log_search, SearchResult
 
 
 class SearchHandler(ABC):
@@ -12,6 +12,7 @@ class SearchHandler(ABC):
         pass
 
     @abstractmethod
+    @log_search
     def search(self,
                query: str,
                year_from: Optional[str | int] = None,

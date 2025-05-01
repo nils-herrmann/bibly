@@ -3,7 +3,7 @@ from typing import Optional
 from pybliometrics.sciencedirect import init, ScienceDirectSearch
 
 from bibly.search_handler import SearchHandler
-from bibly.utils.data_types import SearchResult
+from bibly.utils import log_search, SearchResult
 
 
 class SciencedirectHandler(SearchHandler):
@@ -19,6 +19,7 @@ class SciencedirectHandler(SearchHandler):
         else:
             init(keys=[self.api_key])
 
+    @log_search
     def search(self,
                query: str,
                year_from: Optional[str | int] = None,
