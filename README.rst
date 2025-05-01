@@ -4,6 +4,7 @@ BibLy
 
 🔨 Implemented APIs
 -------------------
+
 .. list-table::
    :header-rows: 1
 
@@ -17,7 +18,7 @@ BibLy
      - ❌
    * - OpenAlex
      - ✅
-    * - Web of Science
+   * - Web of Science
      - ❌
 
 
