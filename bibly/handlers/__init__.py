@@ -1,0 +1,1 @@
+from bibly.handlers.register_handlers import *

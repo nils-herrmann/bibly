@@ -1,10 +1,14 @@
 from typing import Optional
 from sprynger import init, Meta
 
-from bibly.search_handler import SearchHandler
+from bibly.base_handler import SearchHandler
+from bibly.handler_registry import HandlerRegistry
 from bibly.utils import log_count, log_search, SearchResult
 
+
 class SpringerHandler(SearchHandler):
+    required_params = ['springer_key']
+
     def initialize(self):
         """
         Initialize the Springer search handler with API key.
@@ -49,11 +53,11 @@ class SpringerHandler(SearchHandler):
             )
         return results
 
-    def __init__(self, api_key: str):
+    def __init__(self, **kwargs):
         """
         Initialize the Springer search handler with API key.
 
-        :param api_key: Springer API key
+        :param springer_key: Springer API key
         """
-        self.api_key = api_key
-        self.initialize()
+        self.api_key = kwargs.get('springer_key')
+        super().__init__()

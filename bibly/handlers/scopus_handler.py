@@ -2,11 +2,13 @@ from typing import Optional
 
 from pybliometrics.scopus import init, ScopusSearch
 
-from bibly.search_handler import SearchHandler
+from bibly.base_handler import SearchHandler
+from bibly.handler_registry import HandlerRegistry
 from bibly.utils import log_count, log_search, SearchResult
 
-
 class ScopusHandler(SearchHandler):
+    required_params = ['scopus_key', 'scopus_token']
+
     def initialize(self):
         """ 
         Initialize the Scopus search handler with API key and token.
@@ -56,15 +58,15 @@ class ScopusHandler(SearchHandler):
         return results
 
 
-    def __init__(self,
-                 api_key: str,
-                 api_token: Optional[str]):
+    def __init__(self, **kwargs):
         """
         Initialize the Scopus search handler with API key and token.
 
         :param api_key: Scopus API key
         :param api_token: Scopus API token
         """
-        self.api_key = api_key
-        self.api_token = api_token
-        self.initialize()
+        self.api_key = kwargs.get('scopus_key')
+        self.api_token = kwargs.get('scopus_token')
+        super().__init__()
+
+HandlerRegistry.register_handler("Scopus", ScopusHandler)

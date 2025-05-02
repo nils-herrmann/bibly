@@ -2,11 +2,13 @@ from typing import Optional
 
 from pybliometrics.sciencedirect import init, ScienceDirectSearch
 
-from bibly.search_handler import SearchHandler
-from bibly.utils import log_search, SearchResult
-
+from bibly.base_handler import SearchHandler
+from bibly.handler_registry import HandlerRegistry
+from bibly.utils import log_count, log_search, SearchResult
 
 class SciencedirectHandler(SearchHandler):
+    required_params = ['scopus_key', 'scopus_token']
+
     def initialize(self):
         """
         Initialize the Scopus search handler with API key and token.
@@ -18,6 +20,14 @@ class SciencedirectHandler(SearchHandler):
             init(keys=[self.api_key], inst_tokens=[self.api_token])
         else:
             init(keys=[self.api_key])
+
+    @log_count
+    def count(self,
+              query: str,
+              year_from: Optional[str | int] = None,
+              year_to: Optional[str | int] = None) -> int:
+        """ Count the number of results for a given query using the ScienceDirectSearch API."""
+        return 0
 
     @log_search
     def search(self,
@@ -45,15 +55,14 @@ class SciencedirectHandler(SearchHandler):
         return results
 
 
-    def __init__(self,
-                 api_key: str,
-                 api_token: Optional[str]):
+    def __init__(self, **kwargs):
         """
         Initialize the ScienceDirect search handler with API key and token.
 
         :param api_key: ScienceDirect API key
         :param api_token: ScienceDirect API token
         """
-        self.api_key = api_key
-        self.api_token = api_token
-        self.initialize()
+        self.api_key = kwargs.get('scopus_key')
+        self.api_token = kwargs.get('scopus_token')
+        super().__init__()
+

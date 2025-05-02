@@ -3,11 +3,14 @@ from typing import Optional
 from pyalex import Works
 import pyalex
 
-from bibly.search_handler import SearchHandler
+from bibly.base_handler import SearchHandler
+from bibly.handler_registry import HandlerRegistry
 from bibly.utils import get_field_value, log_count, log_search, SearchResult
 
-
 class OpenAlexHandler(SearchHandler):
+    # No required parameters for OpenAlex
+    required_params = []
+
     def initialize(self):
         """ Initialize the OpenAlex search handler with API email."""
         pyalex.config.email = self.email
@@ -55,12 +58,11 @@ class OpenAlexHandler(SearchHandler):
         return results
 
 
-    def __init__(self, email: Optional[str] = None):
+    def __init__(self, **kwargs):
         """
         Handler for OpenAlex API
 
         :param email: Personal email for OpenAlex API
         """
-        self.email = email
-        self.initialize()
-
+        self.email = kwargs.get('email')
+        super().__init__()

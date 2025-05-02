@@ -1,10 +1,8 @@
 from typing import Optional
 
-from bibly.openalex_handler import OpenAlexHandler
-from bibly.scopus_handler import ScopusHandler
-from bibly.sciencedirect_handler import SciencedirectHandler
-from bibly.springer_handler import SpringerHandler
-from bibly.utils.data_types import SearchResult
+from bibly.handler_registry import HandlerRegistry
+from bibly.handlers import *
+from bibly.utils import SearchResult
 
 
 class BibLy:
@@ -17,12 +15,8 @@ class BibLy:
         Count the number of results for a given query for each API.
         """
         counts = {}
-        counts['OpenAlex'] = self.openalex_handler.count(query, year_from, year_to)
-        if self.scopus_handler:
-            counts['Scopus'] = self.scopus_handler.count(query, year_from, year_to)
-        if self.springer_handler:
-            counts['Springer'] = self.springer_handler.count(query, year_from, year_to)
-
+        for name, handler in self.handlers.items():
+            counts[name] = handler.count(query, year_from, year_to)
         return counts
 
     def search(self,
@@ -39,22 +33,11 @@ class BibLy:
         :return: List of search results
         """
         results = []
-
-        results.extend(self.openalex_handler.search(query, year_from, year_to))
-        if self.sciencedirect_handler:
-            results.extend(self.sciencedirect_handler.search(query, year_from, year_to))
-        if self.scopus_handler:
-            results.extend(self.scopus_handler.search(query, year_from, year_to))
-        if self.springer_handler:
-            results.extend(self.springer_handler.search(query, year_from, year_to))
-
+        for handler in self.handlers.values():
+            results.extend(handler.search(query, year_from, year_to))
         return results
 
-    def __init__(self,
-                 email: Optional[str] = None,
-                 scopus_key: Optional[str] = None,
-                 scopus_token: Optional[str] = None,
-                 springer_key: Optional[str] = None):
+    def __init__(self, **kwargs):
         """
         To use the different APIs, you need to provide the API keys with the exception of
         OpenAlex, which is always available.
@@ -64,8 +47,4 @@ class BibLy:
         :param scopus_token: Scopus API token
         :param springer_key: Springer API key
         """
-        # Initialize API handlers
-        self.openalex_handler = OpenAlexHandler(email)
-        self.scopus_handler = ScopusHandler(scopus_key, scopus_token) if scopus_key else None
-        self.sciencedirect_handler = SciencedirectHandler(scopus_key, scopus_token) if scopus_key else None
-        self.springer_handler = SpringerHandler(springer_key) if springer_key else None
+        self.handlers = HandlerRegistry.initialize_handlers(**kwargs)
