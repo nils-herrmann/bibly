@@ -4,11 +4,12 @@ from pybliometrics.scopus import init, ScopusSearch
 
 from bibly.base_handler import SearchHandler
 from bibly.handler_registry import HandlerRegistry
-from bibly.utils import log_count, log_search, SearchResult
+from bibly.utils import log_count, log_initialization, log_search, SearchResult
 
 class ScopusHandler(SearchHandler):
     required_params = ['scopus_key', 'scopus_token']
 
+    @log_initialization
     def initialize(self):
         """ 
         Initialize the Scopus search handler with API key and token.

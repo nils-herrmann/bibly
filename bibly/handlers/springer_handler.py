@@ -3,12 +3,13 @@ from sprynger import init, Meta
 
 from bibly.base_handler import SearchHandler
 from bibly.handler_registry import HandlerRegistry
-from bibly.utils import log_count, log_search, SearchResult
+from bibly.utils import log_count, log_initialization, log_search, SearchResult
 
 
 class SpringerHandler(SearchHandler):
     required_params = ['springer_key']
 
+    @log_initialization
     def initialize(self):
         """
         Initialize the Springer search handler with API key.

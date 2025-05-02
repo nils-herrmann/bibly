@@ -5,12 +5,13 @@ import pyalex
 
 from bibly.base_handler import SearchHandler
 from bibly.handler_registry import HandlerRegistry
-from bibly.utils import get_field_value, log_count, log_search, SearchResult
+from bibly.utils import get_field_value, log_count, log_initialization, log_search, SearchResult
 
 class OpenAlexHandler(SearchHandler):
     # No required parameters for OpenAlex
     required_params = []
 
+    @log_initialization
     def initialize(self):
         """ Initialize the OpenAlex search handler with API email."""
         pyalex.config.email = self.email

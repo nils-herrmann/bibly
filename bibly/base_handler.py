@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from bibly.utils import log_count, log_search, SearchResult
+from bibly.utils import log_count, log_initialization, log_search, SearchResult
 
 
 class SearchHandler(ABC):
@@ -25,6 +25,7 @@ class SearchHandler(ABC):
         return all(param in kwargs and kwargs[param] is not None for param in cls.required_params)
 
     @abstractmethod
+    @log_initialization
     def initialize(self):
         """Initialize the search handler."""
         pass

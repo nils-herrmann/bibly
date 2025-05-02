@@ -14,13 +14,6 @@ class HandlerRegistry:
     @classmethod
     def register_handler(cls, name: str, handler: Type[SearchHandler]):
         cls._registry[name] = handler
-
-    @classmethod
-    def get_handler(cls, name: str, **kwargs) -> SearchHandler:
-        handler_class = cls._registry.get(name)
-        if handler_class and handler_class.can_initialize(**kwargs):
-            return handler_class(**kwargs)
-        return None
     
     @classmethod
     def initialize_handlers(cls, **kwargs) -> Dict[str, SearchHandler]:
