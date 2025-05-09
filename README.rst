@@ -15,7 +15,7 @@ BibLy
    * - Springer
      - ✅
    * - ScienceDirect
-     - ❌
+     - ✅
    * - OpenAlex
      - ✅
    * - Web of Science
