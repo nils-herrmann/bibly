@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pybliometrics.sciencedirect import init, ScienceDirectSearch
+from pybliometrics.sciencedirect import init, ArticleMetadata, ScienceDirectSearch
 
 from bibly.base_handler import SearchHandler
 from bibly.handler_registry import HandlerRegistry
@@ -28,7 +28,10 @@ class SciencedirectHandler(SearchHandler):
               year_from: Optional[str | int] = None,
               year_to: Optional[str | int] = None) -> int:
         """ Count the number of results for a given query using the ScienceDirectSearch API."""
-        return 0
+        q = {'qs': query, 'date': f'{year_from}-{year_to}', 'display': {'show': 1}}
+        sciencedirect_results = ScienceDirectSearch(q, download=False, refresh=True)
+
+        return sciencedirect_results.get_results_size()
 
     @log_search
     def search(self,
@@ -36,23 +39,29 @@ class SciencedirectHandler(SearchHandler):
                year_from: Optional[str | int] = None,
                year_to: Optional[str | int] = None) -> list[SearchResult]:
         """ Search for a given query using the ScienceDirectSearch API."""
-        query += f" AND DATE({year_from}-{year_to})" if year_from or year_to else ""
-
-        sciencedirect_search = ScienceDirectSearch(query)
+        # Search for dois using the ScienceDirectSearch API
+        q = {'qs': query, 'date': f'{year_from}-{year_to}'}
+        search_results = ScienceDirectSearch(q)
 
         results = []
-        if sciencedirect_search.results:
-            for entry in sciencedirect_search.results:
+        if search_results.results:
+            # Get all metadata including the asbtract
+            dois = [d.doi for d in search_results.results]
+            q = ' OR '.join([f'DOI({doi})' for doi in dois])
+            metadata_results = ArticleMetadata(q)
+
+            for entry in metadata_results.results:
                 results.append(
                     SearchResult(
                         doi=entry.doi,
                         title=entry.title,
-                        abstract=None,
+                        abstract=entry.abstract_text,
                         authors=entry.authors,
                         date=entry.coverDate,
                         source="ScienceDirect"
                     )
                 )
+
         return results
 
 
