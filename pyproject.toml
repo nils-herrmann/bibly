@@ -1,6 +1,6 @@
 [project]
 name = "bibly"
-version = "0.0.3"
+version = "0.0.4"
 description = "Simple package for literature retrieval."
 readme = "README.rst"
 authors = [
