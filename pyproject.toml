@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "pybliometrics",
+    "pybliometrics-sd>=4.4a0",
     "sprynger>=0.4.2",
     "pyalex>=0.21",
 ]
@@ -22,11 +22,6 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/nils-herrmann/bibly"
 Repository = "https://github.com/nils-herrmann/bibly"
-
-[tool.uv.sources]
-# ScienceDirect search requires the PUT-based endpoint, which is only
-# available on this branch (upstream still uses GET and returns 405).
-pybliometrics = { git = "https://github.com/nils-herrmann/pybliometrics", branch = "science_direct_search" }
 
 [dependency-groups]
 dev = [

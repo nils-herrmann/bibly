@@ -142,11 +142,11 @@ wheels = [
 
 [[package]]
 name = "bibly"
-version = "0.0.3"
+version = "0.0.4"
 source = { editable = "." }
 dependencies = [
     { name = "pyalex" },
-    { name = "pybliometrics" },
+    { name = "pybliometrics-sd" },
     { name = "sprynger" },
 ]
 
@@ -161,7 +161,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "pyalex", specifier = ">=0.21" },
-    { name = "pybliometrics", git = "https://github.com/nils-herrmann/pybliometrics?branch=science_direct_search" },
+    { name = "pybliometrics-sd", specifier = ">=4.4a0" },
     { name = "sprynger", specifier = ">=0.4.2" },
 ]
 
@@ -1515,13 +1515,17 @@ wheels = [
 ]
 
 [[package]]
-name = "pybliometrics"
-version = "3.5.3.dev143+g921fa26ca"
-source = { git = "https://github.com/nils-herrmann/pybliometrics?branch=science_direct_search#921fa26ca1039e8a6ad026511bf2f852c463bcbd" }
+name = "pybliometrics-sd"
+version = "4.4a0"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "requests" },
     { name = "tqdm" },
     { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b9/dd/c10b00d68715f2173b194f644db4c65e334ff25274e5c4df5b4e09aff2bd/pybliometrics_sd-4.4a0.tar.gz", hash = "sha256:72a2307c90e6a63f5bf546662ec76f07bede91e517cc23b4b7336d9478455cfb", size = 1010294, upload-time = "2026-07-02T09:07:50.495Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/63/2a/7331cdda196fad5651b47b545284fbd21a3d1ff56d819450d869156d9f2b/pybliometrics_sd-4.4a0-py3-none-any.whl", hash = "sha256:6318b99af58e6ac4f9995edd3447be016cf54d84f0f5d40398fda11fe7f81238", size = 129452, upload-time = "2026-07-02T09:07:48.802Z" },
 ]
 
 [[package]]

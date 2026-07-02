@@ -31,6 +31,32 @@ Download and install the package from PyPI:
     pip install bibly
 
 
+🔑 API Keys
+-----------
+Each API requires its own credentials. Provide the keys for the APIs you want to
+query; handlers without valid credentials are simply skipped.
+
+.. list-table::
+   :header-rows: 1
+
+   * - API
+     - Parameter
+     - Where to get it
+     - Cost
+   * - OpenAlex
+     - ``openalex_key``
+     - https://openalex.org/settings/api-key
+     - Free
+   * - Scopus
+     - ``scopus_key``
+     - https://dev.elsevier.com/apikey/manage
+     - ⚠️ Not free — requires an Elsevier/Scopus subscription (typically institutional).
+   * - Springer
+     - ``springer_key``
+     - https://dev.springernature.com
+     - Free
+
+
 🪧 Example Use
 ---------------
 
@@ -38,9 +64,10 @@ Download and install the package from PyPI:
 
     >>> from bibly import BibLy
     >>> # Create client
-    >>> client = BibLy(email="Email for OpenAlex polite pool",
+    >>> client = BibLy(openalex_key="API key for OpenAlex: https://openalex.org/settings/api-key",
+    >>>                email="Email for OpenAlex polite pool",
     >>>                scopus_key="API key for Scopus: https://dev.elsevier.com/apikey/manage",
-    >>>                springer_key="Free API key for Springer: https://dev.springernature.com",)
+    >>>                springer_key="API key for Springer: https://dev.springernature.com",)
     >>> # Count the number of results
     >>> count = client.count(query="iab-bamf-soep AND integration", year_from=2015, year_to=2017)
     >>> count
