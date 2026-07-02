@@ -1,7 +1,10 @@
 """Module to manage the registration of handlers for different APIs."""
+import logging
 from typing import Type, Dict
 
 from bibly.base_handler import SearchHandler
+
+logger = logging.getLogger("bibly")
 
 
 class HandlerRegistry:
@@ -25,8 +28,21 @@ class HandlerRegistry:
         """
         initialized_handlers = {}
         for name, handler_class in cls._registry.items():
-            if handler_class.can_initialize(**kwargs):
+            if not handler_class.can_initialize(**kwargs):
+                missing = [p for p in handler_class.required_params
+                           if kwargs.get(p) is None]
+                logger.warning(
+                    f"{name} not initialized: missing required parameter(s) "
+                    f"{missing}"
+                )
+                continue
+            try:
                 initialized_handlers[name] = handler_class(**kwargs)
+            except Exception as e:
+                logger.error(
+                    f"{name} failed to initialize: {e}",
+                    exc_info=True
+                )
         return initialized_handlers
 
     @classmethod

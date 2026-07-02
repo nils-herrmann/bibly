@@ -1,23 +1,41 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "bibly"
 version = "0.0.3"
-authors = [
-  { name="Nils A. Herrmann de Alba", email="nils_herrmann@outlook.de" },
-]
 description = "Simple package for literature retrieval."
 readme = "README.rst"
+authors = [
+  { name = "Nils A. Herrmann de Alba", email = "nils_herrmann@outlook.de" },
+]
 requires-python = ">=3.11"
-dependencies = ["pybliometrics", "sprynger", "pyalex"]
-license = { text = "MIT" }
+dependencies = [
+    "pybliometrics",
+    "sprynger>=0.4.2",
+    "pyalex>=0.21",
+]
+license = "MIT"
+license-files = ["LICENSE"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 
-[tool.setuptools.packages.find]
-include = ["bibly", "bibly.*"]
+[project.urls]
+Homepage = "https://github.com/nils-herrmann/bibly"
+Repository = "https://github.com/nils-herrmann/bibly"
+
+[tool.uv.sources]
+# ScienceDirect search requires the PUT-based endpoint, which is only
+# available on this branch (upstream still uses GET and returns 405).
+pybliometrics = { git = "https://github.com/nils-herrmann/pybliometrics", branch = "science_direct_search" }
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.0",
+    "ipykernel>=6",
+    "python-dotenv>=1.2.2",
+    "pandas>=3.0.3",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.0,<0.12.0"]
+build-backend = "uv_build"

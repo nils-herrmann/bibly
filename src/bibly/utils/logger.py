@@ -10,16 +10,16 @@ logger.propagate = False
 def log_count(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(self, query: str, *args, **kwargs) -> int:
+        handler = self.__class__.__name__
         try:
             count = func(self, query, *args, **kwargs)
             logger.info(
-                f"{self.__class__.__name__} Query: '{query}', Count: {count}"
+                f"COUNT  | {handler:<20} | query='{query}' | count={count}"
             )
             return count
         except Exception as e:
             logger.error(
-                f"{self.__class__.__name__} encountered an error "
-                f"with query='{query}': {e}",
+                f"COUNT  | {handler:<20} | query='{query}' | FAILED: {e}",
                 exc_info=True
             )
             raise
@@ -29,12 +29,13 @@ def log_count(func: Callable) -> Callable:
 def log_initialization(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(self, *args, **kwargs) -> Any:
+        handler = self.__class__.__name__
         try:
             result = func(self, *args, **kwargs)
-            logger.info(f"{self.__class__.__name__} initialized successfully")
+            logger.info(f"INIT   | {handler:<20} | initialized successfully")
         except Exception as e:
             logger.error(
-                f"{self.__class__.__name__} failed to initialize: {e}",
+                f"INIT   | {handler:<20} | FAILED: {e}",
                 exc_info=True
             )
             raise
@@ -44,18 +45,18 @@ def log_initialization(func: Callable) -> Callable:
 def log_search(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(self, query: str, year_from: Optional[str | int] = None, year_to: Optional[str | int] = None, *args, **kwargs) -> list:
+        handler = self.__class__.__name__
         try:
             result = func(self, query, year_from, year_to, *args, **kwargs)
             logger.info(
-                f"{self.__class__.__name__}, "
-                f"Query: '{query}', Year From: {year_from}, Year To: {year_to}, "
-                f"Results: {len(result)}"
+                f"SEARCH | {handler:<20} | query='{query}' | "
+                f"years={year_from}-{year_to} | results={len(result)}"
             )
             return result
         except Exception as e:
             logger.error(
-                f"{self.__class__.__name__} encountered an error "
-                f"with query='{query}', year_from={year_from}, year_to={year_to}: {e}",
+                f"SEARCH | {handler:<20} | query='{query}' | "
+                f"years={year_from}-{year_to} | FAILED: {e}",
                 exc_info=True
             )
             raise
