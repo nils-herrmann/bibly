@@ -48,7 +48,6 @@ class BibLy:
         To use the different APIs, you need to provide the corresponding API keys.
 
         :param openalex_key: OpenAlex API key
-        :param email: Personal email for OpenAlex API for the `polite pool <https://docs.openalex.org/how-to-use-the-api/rate-limits-and-authentication#the-polite-pool>`__.
         :param scopus_key: Scopus API key
         :param scopus_token: Scopus API token
         :param springer_key: Springer API key

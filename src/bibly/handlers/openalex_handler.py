@@ -11,10 +11,8 @@ class OpenAlexHandler(SearchHandler):
 
     @log_initialization
     def initialize(self):
-        """ Initialize the OpenAlex search handler with API key and email."""
+        """ Initialize the OpenAlex search handler with API key."""
         pyalex.config.api_key = self.api_key
-        if self.email:
-            pyalex.config.email = self.email
 
     @log_count
     def count(self,
@@ -64,8 +62,6 @@ class OpenAlexHandler(SearchHandler):
         Handler for OpenAlex API
 
         :param openalex_key: OpenAlex API key
-        :param email: Personal email for OpenAlex API
         """
         self.api_key = kwargs.get('openalex_key')
-        self.email = kwargs.get('email')
         super().__init__()

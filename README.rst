@@ -65,7 +65,6 @@ query; handlers without valid credentials are simply skipped.
     >>> from bibly import BibLy
     >>> # Create client
     >>> client = BibLy(openalex_key="API key for OpenAlex: https://openalex.org/settings/api-key",
-    >>>                email="Email for OpenAlex polite pool",
     >>>                scopus_key="API key for Scopus: https://dev.elsevier.com/apikey/manage",
     >>>                springer_key="API key for Springer: https://dev.springernature.com",)
     >>> # Count the number of results
